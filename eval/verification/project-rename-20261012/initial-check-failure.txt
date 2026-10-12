@@ -1,0 +1,10 @@
+Command: uv lock --check --offline
+Exit code: 1
+error: Failed to initialize cache at `C:\Users\Administrator\AppData\Local\uv\cache`
+  Caused by: failed to open file `C:\Users\Administrator\AppData\Local\uv\cache\sdists-v9\.git`: 拒绝访问。 (os error 5)
+
+Command: git status --short
+Exit code: 128
+fatal: not a git repository (or any of the parent directories): .git
+
+Follow-up: use a workspace-local uv cache and record the repeated check separately.

@@ -1,0 +1,122 @@
+--- before/README.md
++++ after/README.md
+@@ -1,8 +1,8 @@
+ # Globex · 从商品检索到交易确认的电商 Agent
+ 
+-一个基于 **AgentScope、AG-UI 和 React** 的全栈 Agent 实战项目，覆盖需求理解、商品检索、方案比较与交易确认。
+-
+-在完整选购流程中，探索 Agent 应用的关键工程问题：如何调用业务工具、记住用户偏好、管理长对话，以及在刷新、断线和人工审批之间保持状态一致。
++一个基于 **AgentScope、AG-UI 和 React** 的电商选购助手，覆盖需求理解、商品检索、方案比较与交易确认。
++
++围绕完整选购流程，集成业务工具调用、用户偏好记忆与长对话管理，并在刷新、断线和人工审批之间保持状态一致。
+ 
+ [快速开始](#快速开始) · [核心能力](#核心能力) · [工作原理](#工作原理) · [项目状态](#项目状态) · [开发与文档](#开发与文档)
+ 
+@@ -88,7 +88,7 @@
+ 
+ ## 快速开始
+ 
+-**推荐先使用 AI 帮忙启动！！**
++可以使用编程助手检查环境并启动服务。
+ 
+ 在编程助手中打开 `globex-agent` 工程目录，可以使用以下提示：
+ 
+@@ -253,7 +253,7 @@
+ 
+ 当前网页的 AG-UI 请求在 API 进程执行。Redis worker 服务于旧意图接口和异步任务入口，开启队列不会自动把网页请求转交 worker。
+ 
+-更详细的实现说明见[设计演进记录](docs/设计演进记录.md)与[教程实现对齐清单](docs/教程实现对齐清单.md)。
++工程决策与历史演进见[设计演进记录](docs/设计演进记录.md)，各功能的变更与验证范围见[改动记录](docs/改动记录/README.md)。
+ 
+ ## 配置与数据
+ 
+@@ -428,7 +428,7 @@
+ | --- | --- |
+ | 每天各功能改了什么、如何验证、还有哪些阻塞 | [按日期与功能归档的改动记录](docs/改动记录/README.md) |
+ | 当前交付范围与剩余问题 | [实施与验证总记录](docs/全计划实施与验证记录-2026-09-09.md) |
+-| 教程与代码如何对应 | [教程实现对齐清单](docs/教程实现对齐清单.md) |
++| 架构如何演进、关键设计如何取舍 | [设计演进记录](docs/设计演进记录.md) |
+ | Skill 与长期偏好如何工作 | [买家自写 Skill 与长期记忆](docs/买家自写Skill与长期记忆-2026-09-09.md) |
+ | 长对话如何整理与评测 | [上下文分层治理与评测](docs/上下文分层治理与评测-2026-09-10.md) |
+ | 刷新与断线如何恢复 | [AG-UI 持久运行](docs/AG-UI持久运行与断线恢复-2026-09-09.md) |
+--- before/pyproject.toml
++++ after/pyproject.toml
+@@ -31,7 +31,7 @@
+     "gepa==0.1.4",
+ ]
+ 
+-# 声明为独立 workspace root，避免 uv 向上探测课程仓库根部的 pyproject
++# 声明为独立 workspace root，避免 uv 继承父目录的 workspace 配置
+ [tool.uv.workspace]
+ members = []
+ 
+--- before/docs/设计演进记录.md
++++ after/docs/设计演进记录.md
+@@ -1,7 +1,7 @@
+ # Globex 设计演进记录
+ 
+ 面向后续维护者的工程档案：每期做了什么、为什么这么选、踩过哪些坑。
+-教学向的完整讲解在教程正文，这里只记工程决策与事实。
++使用方式见项目 README；本页记录工程决策、实现取舍与验证事实。
+ 
+ ## 每日工程更新
+ 
+--- before/app/infrastructure/persistence/sql/tables.py
++++ after/app/infrastructure/persistence/sql/tables.py
+@@ -5,7 +5,7 @@
+ 商品目录不落库（会牵动向量建库与评测事实表构造，留后续）。
+ 
+ 建表策略：启动时用 `create_all` 幂等建表。生产环境应换成 Alembic 迁移
+-（本项目为教学工程，避免引入迁移目录的额外复杂度）。
++（当前尚未引入数据库版本迁移，create_all 不负责已有表结构的升级）。
+ 
+ 自增主键用 `BigInteger().with_variant(Integer, "sqlite")`：SQLite 的 AUTOINCREMENT
+ 只能用于 INTEGER PRIMARY KEY，不做 variant 则单测无法用内存库跑真实 SQL。
+--- before/app/application/agents/context_policy.py
++++ after/app/application/agents/context_policy.py
+@@ -2,7 +2,7 @@
+ """context_policy
+ 
+ Context 工程策略：把 2.0 内置的上下文压缩配置成跨境购物场景的口径
+-（即教程 Cache Breakpoint 章节要解决的问题——长对话不爆 token 且关键事实不丢）。
++（目标是控制长对话的 token 占用，并在压缩时保留关键业务事实）。
+ 
+ 压缩触发：上下文占用达 context_size * trigger_ratio 时，Agent 自动把早期消息
+ 压缩成摘要写入 AgentState.summary，保留末段 reserve_ratio 的原始消息。
+--- before/scripts/eval/run_product_recall.py
++++ after/scripts/eval/run_product_recall.py
+@@ -1,5 +1,5 @@
+ # -*- coding: utf-8 -*-
+-"""商品检索（product_search）召回评测 —— 见教程 13-2 章。
++"""商品检索（product_search）的模块级召回评测。
+ 
+ 直连 `CatalogSearchUseCase`，不过 HTTP、不过 Agent：召回评测的定位是模块级
+ 「日常体检」，改一行权重、换一版 reranker 都该能几秒钟跑一遍，才可能常驻 CI。
+--- before/scripts/eval/run_category_recall.py
++++ after/scripts/eval/run_category_recall.py
+@@ -1,5 +1,5 @@
+ # -*- coding: utf-8 -*-
+-"""品类知识库（CategoryInsight）召回评测 —— 见教程 13-1 §5。
++"""品类知识库（CategoryInsight）的文档级召回评测。
+ 
+ 与商品检索评测共用 `scripts/eval/metrics.py` 的三个指标，区别只在**标注单位**：
+ 
+--- before/scripts/eval/validate_datasets.py
++++ after/scripts/eval/validate_datasets.py
+@@ -1,5 +1,5 @@
+ # -*- coding: utf-8 -*-
+-"""标注集自检 —— 见教程 13-2 §2.4。
++"""检索评测标注集的完整性与约束一致性自检。
+ 
+ 标注集是评测的基准。基准本身错了，后面所有指标都不可信，而且错法很隐蔽：
+ 把一个「会被硬约束挡掉」的商品标成 relevant，不会报错，只会让 Recall 上限
+--- before/docs/改动记录/README.md
++++ after/docs/改动记录/README.md
+@@ -6,6 +6,7 @@
+ 
+ | 日期 | 交付内容 | 代码版本 |
+ | --- | --- | --- |
++| [2026-09-30](2026-09-30/README.md) | 项目说明与工程文档入口整理：更新当前文案与源码注释，保留历史记录 | 本地修改，版本未知（目录无 Git 元数据） |
+ | [2026-09-26](2026-09-26/README.md) | Windows 启动兼容：偏好文件锁按平台实现 | 本地修改，版本未知（目录无 Git 元数据） |
+ | [2026-09-18](2026-09-18/README.md) | 检索、多语言目录、动态澄清、历史恢复、离线优化、沙箱及前序修复；Cache Breakpoint 计划单列 | [be13ff48](https://github.com/pao-coder66/globex-agent/commit/be13ff48c6623d540364cfd66b505c504329bf86) |
+ 

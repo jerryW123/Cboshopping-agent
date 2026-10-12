@@ -1,0 +1,36 @@
+PASS Python project display name
+PASS Normalized uv root name
+PASS npm package/lock consistency
+PASS No old display name: README.md
+PASS No old display name: AGENTS.md
+PASS No old display name: pyproject.toml
+PASS No old display name: docker/docker-compose.yaml
+PASS No old display name: frontend/index.html
+PASS No old display name: app/infrastructure/settings.py
+PASS No old display name: app/presentation/server.py
+PASS No old display name: app/infrastructure/commerce/sandbox.py
+PASS No old display name: app/infrastructure/rag/category_knowledge.py
+PASS No old display name: app/domain/catalog/product.py
+PASS No old display name: app/application/agents/context_policy.py
+PASS No old display name: app/application/prompts/globex.yml
+PASS No old display name: scripts/eval_regression.py
+PASS No old display name: scripts/generate_knowledge_fixture.py
+PASS No old display name: scripts/issue_identity_token.py
+PASS No old display name: scripts/loadtest.py
+PASS No old display name: scripts/retrieval_server.py
+PASS No old display name: frontend/src/App.tsx
+PASS No old display name: frontend/src/components/ContextWorkspace.tsx
+PASS No old display name: uv.lock
+PASS No old display name: frontend/package.json
+PASS No old display name: frontend/package-lock.json
+PASS Source fingerprints match
+PASS Telemetry defaults renamed
+PASS Existing database filename retained
+PASS Documentation link: 项目名称调整.md
+PASS Documentation link: changed-files.txt
+PASS Documentation link: validation.log
+PASS Documentation link: metadata-recheck.log
+PASS Documentation link: initial-check-failure.txt
+PASS Documentation link: uv-lock-check.log
+PASS Documentation link: sha256.txt
+PASS Frontend dependencies absent; build not run

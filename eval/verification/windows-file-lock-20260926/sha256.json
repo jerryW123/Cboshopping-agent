@@ -1,0 +1,14 @@
+[
+    {
+        "Hash":  "0CFDFA3ABA424415E9B3E1228EDB260EA65940438625555479C80ED40CDA81A9",
+        "File":  "before.log"
+    },
+    {
+        "Hash":  "41560114A51FE7EFDBDDFC823FF7B583E837316D12B01D4BD2CB07613CA0F349",
+        "File":  "after.log"
+    },
+    {
+        "Hash":  "CE88A2988269359FF34F0EFB1D845E75522F195547601D4D9B0591D08C582C62",
+        "File":  "import.log"
+    }
+]

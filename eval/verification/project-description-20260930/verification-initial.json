@@ -1,0 +1,43 @@
+{
+  "checks": {
+    "current_copy_no_course_reference:README.md": true,
+    "toml_values_unchanged": true,
+    "current_copy_no_course_reference:pyproject.toml": true,
+    "current_copy_no_course_reference:docs/设计演进记录.md": true,
+    "python_behavior:app/infrastructure/persistence/sql/tables.py": true,
+    "current_copy_no_course_reference:app/infrastructure/persistence/sql/tables.py": true,
+    "python_behavior:app/application/agents/context_policy.py": true,
+    "current_copy_no_course_reference:app/application/agents/context_policy.py": true,
+    "python_behavior:scripts/eval/run_product_recall.py": true,
+    "current_copy_no_course_reference:scripts/eval/run_product_recall.py": true,
+    "python_behavior:scripts/eval/run_category_recall.py": true,
+    "current_copy_no_course_reference:scripts/eval/run_category_recall.py": true,
+    "python_behavior:scripts/eval/validate_datasets.py": true,
+    "current_copy_no_course_reference:scripts/eval/validate_datasets.py": true,
+    "protected_files_unchanged": true,
+    "design_history_unchanged": true,
+    "old_index_preserved": true,
+    "local_document_link_targets_exist": false
+  },
+  "passed": false,
+  "protected_files_checked": 843,
+  "changed_protected_files": [],
+  "missing_links": [
+    {
+      "source": "README.md",
+      "target": ".env.example"
+    }
+  ],
+  "sha256": {
+    "README.md": "56a9ab7c44c6f9f9a65b0551a3cd9d698dd08dc28dc894bbf1d27d63110419df",
+    "pyproject.toml": "c271b2405cad02171fca32b69d7a5cc29164ed79222ae9833563908acd3d1567",
+    "docs/设计演进记录.md": "5edd5ccf9a79fd7677117321ca2726e8bb6e98a5e85fd1883bb002cc5fe83b5c",
+    "app/infrastructure/persistence/sql/tables.py": "daf6d43fc9299bf9d43547998485035fe5c34428f615ef036802e028560e5921",
+    "app/application/agents/context_policy.py": "b8901ca57b808e40006a847e09a7012bf3fd31fe2202fb1709df0224350f5a9a",
+    "scripts/eval/run_product_recall.py": "6ac8e2221d6db3a0a896743d2bf8374281db109fed740845dd2bb5029ccb8cf3",
+    "scripts/eval/run_category_recall.py": "8e6cb7442a0c7681c01f4cba541beef6ae7696b90518f3955eb5af105626299b",
+    "scripts/eval/validate_datasets.py": "54d47167352ac3e131b701d61bbebf27999c780dae7a77a585eab382b34f4b99",
+    "docs/改动记录/README.md": "a9994352899d437bab5666b3c4747b052e79f52fc8c1e08dda6534fcc0c5a846"
+  },
+  "limits": "静态检查；不验证链接锚点，不运行应用回归、外部链路或效果验收。"
+}
